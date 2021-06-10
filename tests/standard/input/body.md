@@ -1,3 +1,3 @@
-Hi {target_name},
+Hi {name},
 
 Please find attached your **report**.

@@ -1,2 +1,2 @@
-target_email,target_name,subject_path,text_body_path,markdown_body_path,attachment1_path
-rhh@crosscompute.com,Roy,subject.md,body.txt,body.md,example.pdf
+email,name,subject_path,text_path,markdown_path,attachment1_path
+rhh@crosscompute.com,Roy,subject.txt,body.txt,body.md,example.pdf

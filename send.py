@@ -1,4 +1,9 @@
 # https://realpython.com/python-send-email
+'''
+python send.py \
+    tests/standard/input/contacts.csv \
+    smtp.gmail.com 465 example@gmail.com example@gmail.com
+'''
 import pandas as pd
 import re
 import ssl
@@ -22,11 +27,13 @@ def might_be_html(text):
     return False
 
 
-def render_template(template_path, value_by_key):
+def render_template(template_path, value_by_key, from_markdown=False):
     template_file = open(template_path, 'rt')
     template_text = template_file.read()
     template_text = template_text.format(**value_by_key)
-    return markdown(template_text).strip()
+    if from_markdown:
+        template_text = markdown(template_text)
+    return template_text.strip()
 
 
 def get_message_packet(row, folder):
@@ -34,7 +41,7 @@ def get_message_packet(row, folder):
         value for key, value in row.items()
         if key.startswith('attachment') and key.endswith('_path')]
 
-    target_email = row['target_email']
+    target_email = row['email']
 
     subject_path = row['subject_path']
     subject_text = render_template(join(folder, subject_path), row)
@@ -43,7 +50,8 @@ def get_message_packet(row, folder):
     body_text = render_template(join(folder, text_path), row)
 
     markdown_path = row['markdown_path']
-    body_html = render_template(join(folder, markdown_path), row)
+    body_html = render_template(join(
+        folder, markdown_path), row, from_markdown=True)
 
     if body_text and body_html:
         is_multipart = True
@@ -99,11 +107,11 @@ def run(contacts_path, smtp_url, smtp_port, smtp_username, smtp_password):
 
 if __name__ == '__main__':
     [
+        contacts_path,
         smtp_url,       # smtp.gmail.com
         smtp_port,      # 465
         smtp_username,  # sender_email
         source_email,
-        contacts_path,
     ] = argv[1:]
     smtp_password = getpass()
-    run(smtp_url, smtp_port, smtp_username, smtp_password)
+    run(contacts_path, smtp_url, smtp_port, smtp_username, smtp_password)
