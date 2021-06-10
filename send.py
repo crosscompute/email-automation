@@ -2,7 +2,7 @@
 '''
 python send.py \
     tests/standard/input/contacts.csv \
-    smtp.gmail.com 465 example@gmail.com example@gmail.com
+    smtp.gmail.com 465 you@gmail.com you@gmail.com
 '''
 import pandas as pd
 import re
