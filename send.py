@@ -2,7 +2,12 @@
 '''
 python send.py \
     tests/standard/input/contacts.csv \
-    smtp.gmail.com 465 you@gmail.com you@gmail.com
+    tests/standard/input \
+    tests/standard/input \
+    smtp.gmail.com \
+    465 \
+    you@gmail.com \
+    you@gmail.com
 '''
 import pandas as pd
 import re
@@ -13,7 +18,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from getpass import getpass
 from markdown import markdown
-from os.path import basename, dirname, join
+from os.path import basename, join
 from smtplib import SMTP_SSL
 from sys import argv
 
@@ -36,7 +41,7 @@ def render_template(template_path, value_by_key, from_markdown=False):
     return template_text.strip()
 
 
-def get_message_packet(row, folder):
+def get_message_packet(row, templates_folder, attachments_folder):
     attachment_paths = [
         value for key, value in row.items()
         if key.startswith('attachment') and key.endswith('_path')]
@@ -44,14 +49,16 @@ def get_message_packet(row, folder):
     target_email = row['email']
 
     subject_path = row['subject_path']
-    subject_text = render_template(join(folder, subject_path), row)
+    subject_text = render_template(join(
+        templates_folder, subject_path), row)
 
     text_path = row['text_path']
-    body_text = render_template(join(folder, text_path), row)
+    body_text = render_template(join(
+        templates_folder, text_path), row)
 
     markdown_path = row['markdown_path']
     body_html = render_template(join(
-        folder, markdown_path), row, from_markdown=True)
+        templates_folder, markdown_path), row, from_markdown=True)
 
     if body_text and body_html:
         is_multipart = True
@@ -75,7 +82,9 @@ def get_message_packet(row, folder):
     for attachment_path in attachment_paths:
         attachment_name = basename(attachment_path)
         attachment_part = MIMEBase('application', 'octet-stream')
-        with open(join(folder, attachment_path), 'rb') as attachment_file:
+        with open(join(
+            attachments_folder, attachment_path,
+        ), 'rb') as attachment_file:
             attachment_part.set_payload(attachment_file.read())
         encode_base64(attachment_part)
         attachment_part.add_header(
@@ -90,8 +99,14 @@ def get_message_packet(row, folder):
     }
 
 
-def run(contacts_path, smtp_url, smtp_port, smtp_username, smtp_password):
-    contacts_folder = dirname(contacts_path)
+def run(
+        contacts_path,
+        templates_folder,
+        attachments_folder,
+        smtp_url,
+        smtp_port,
+        smtp_username,
+        smtp_password):
     contacts_table = pd.read_csv(contacts_path)
 
     context = ssl.create_default_context()
@@ -99,7 +114,8 @@ def run(contacts_path, smtp_url, smtp_port, smtp_username, smtp_password):
         smtp_server.login(smtp_username, smtp_password)
 
         for row_index, row in contacts_table.iterrows():
-            message_packet = get_message_packet(row, contacts_folder)
+            message_packet = get_message_packet(
+                row, templates_folder, attachments_folder)
             target_email = message_packet['target_email']
             target_payload = message_packet['target_payload']
             smtp_server.sendmail(source_email, target_email, target_payload)
@@ -108,10 +124,19 @@ def run(contacts_path, smtp_url, smtp_port, smtp_username, smtp_password):
 if __name__ == '__main__':
     [
         contacts_path,
+        templates_folder,
+        attachments_folder,
         smtp_url,       # smtp.gmail.com
         smtp_port,      # 465
         smtp_username,  # sender_email
         source_email,
     ] = argv[1:]
     smtp_password = getpass()
-    run(contacts_path, smtp_url, smtp_port, smtp_username, smtp_password)
+    run(
+        contacts_path,
+        templates_folder,
+        attachments_folder,
+        smtp_url,
+        smtp_port,
+        smtp_username,
+        smtp_password)
