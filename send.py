@@ -126,9 +126,9 @@ if __name__ == '__main__':
         contacts_path,
         templates_folder,
         attachments_folder,
-        smtp_url,       # smtp.gmail.com
-        smtp_port,      # 465
-        smtp_username,  # sender_email
+        smtp_url, # smtp.gmail.com
+        smtp_port, # 465
+        smtp_username, # sender_email
         source_email,
     ] = argv[1:]
     smtp_password = getpass()
