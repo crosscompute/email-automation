@@ -1,4 +1,5 @@
 {
+  "source_email": "test@example.com",
   "subject": "Hello {name}",
   "body": "Hi {name},\n\nAttached is your *report*."
 }
