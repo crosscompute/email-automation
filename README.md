@@ -15,3 +15,5 @@ python run.py batches/example/input/ batches/example/output
 # Start server
 crosscompute
 ```
+
+Thanks to https://realpython.com/python-send-email for updated notes on how to send email with Python 3.
