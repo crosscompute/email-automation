@@ -31,13 +31,13 @@ input:
       path: ENVIRONMENT
     - id: source_email
       view: email
-      path: variables.json
+      path: variables.dictionary
     - id: subject
       view: string
-      path: variables.json
+      path: variables.dictionary
     - id: body
       view: text
-      path: variables.json
+      path: variables.dictionary
     - id: contacts
       view: text
       path: contacts.csv
@@ -53,10 +53,10 @@ output:
   variables:
     - id: messages_sent_count
       view: number
-      path: variables.json
+      path: variables.dictionary
     - id: messages_total_count
       view: number
-      path: variables.json
+      path: variables.dictionary
 
 # batches configuration
 # - folder that contains an input subfolder with paths for
