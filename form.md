@@ -9,4 +9,6 @@
 <label for="subject">Subject</label> { subject }
 <label for="body">Body</label> { body }
 <label for="contacts">Contacts</label> { contacts }
+
+Put attachments in ~/Documents/email-automation. You can send multiple attachments to each recipient!
 </div>
