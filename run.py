@@ -6,6 +6,8 @@ from email.encoders import encode_base64
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from invisibleroads_macros_disk import is_path_in_folder
+from invisibleroads_macros_log import format_path
 from markdown import markdown
 from os import environ
 from os.path import basename, join
@@ -56,7 +58,12 @@ def get_message_packet(
     for attachment_path in attachment_paths:
         attachment_name = basename(attachment_path)
         attachment_part = MIMEBase('application', 'octet-stream')
-        with open(join(attachments_folder, attachment_path), 'rb') as f:
+        path = join(attachments_folder, attachment_path)
+        if not is_path_in_folder(path, attachments_folder):
+            raise OSError(
+                f'{format_path(path)} path is outside '
+                f'{format_path(attachments_folder)}')
+        with open(path, 'rb') as f:
             attachment_part.set_payload(f.read())
         encode_base64(attachment_part)
         attachment_part.add_header(
