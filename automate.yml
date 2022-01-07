@@ -60,6 +60,9 @@ output:
     - id: messages_total_count
       view: number
       path: variables.dictionary
+    - id: timestamp
+      view: string
+      path: variables.dictionary
 
   templates:
     - path: result.md

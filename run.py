@@ -1,6 +1,7 @@
 # TODO: Accept uploaded attachments
 import json
 import ssl
+from datetime import datetime
 from email.encoders import encode_base64
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
@@ -81,7 +82,8 @@ if __name__ == '__main__':
     smtp_port = environ['SMTP_PORT']
     smtp_username = environ['SMTP_USERNAME']
     smtp_password = environ['SMTP_PASSWORD']
-    variables = json.load(open(join(input_folder, 'variables.json'), 'rt'))
+    variables = json.load(open(join(
+        input_folder, 'variables.dictionary'), 'rt'))
     source_email = variables['source_email']
     subject_template_text = variables['subject']
     body_template_text = variables['body']
@@ -92,7 +94,8 @@ if __name__ == '__main__':
         json.dump({
             'messages_sent_count': index,
             'messages_total_count': count,
-        }, open(join(output_folder, 'variables.json'), 'wt'))
+            'timestamp': datetime.now().strftime('%Y%m%d-%H%M'),
+        }, open(join(output_folder, 'variables.dictionary'), 'wt'))
 
     run(
         smtp_url, smtp_port, smtp_username, smtp_password, source_email,
