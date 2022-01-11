@@ -54,15 +54,9 @@ output:
   # - path where your script saves the variable,
   #   relative to the output folder
   variables:
-    - id: messages_sent_count
-      view: number
-      path: variables.dictionary
-    - id: messages_total_count
-      view: number
-      path: variables.dictionary
-    - id: timestamp
-      view: string
-      path: variables.dictionary
+    - id: log
+      view: text
+      path: log.txt
 
   templates:
     - path: result.md
