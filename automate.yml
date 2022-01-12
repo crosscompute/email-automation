@@ -55,8 +55,8 @@ output:
   #   relative to the output folder
   variables:
     - id: log
-      view: text
-      path: log.txt
+      view: markdown
+      path: log.md
 
   templates:
     - path: result.md

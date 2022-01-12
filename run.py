@@ -23,7 +23,7 @@ def run(
     try:
         contact_dictionaries = get_contact_dictionaries(
             contacts_table, attachments_folder)
-    except OSError:
+    except (OSError, ValueError):
         raise
     message_count = len(contact_dictionaries)
     context = ssl.create_default_context()
@@ -51,7 +51,11 @@ def get_contact_dictionaries(contacts_table, attachments_folder):
         for k, v in row.items():
             if not k.endswith('_path'):
                 continue
-            path = join(attachments_folder, v.strip())
+            try:
+                path = join(attachments_folder, v.strip())
+            except AttributeError:
+                raise ValueError(
+                    f'could not parse *{k}*; check row {row_index + 1}')
             if not exists(path):
                 raise OSError(f'{format_path(path)} does not exist')
             elif not is_path_in_folder(path, attachments_folder):
@@ -120,14 +124,14 @@ if __name__ == '__main__':
     contacts_table = read_csv(join(input_folder, 'contacts.csv'))
 
     def log(text):
-        open(join(output_folder, 'log.txt'), 'at').write(
-            datetime.now().strftime('%Y%m%d-%H%M') + ': ' + text + '\n')
+        open(join(output_folder, 'log.md'), 'at').write(
+            datetime.now().strftime('%Y%m%d-%H%M') + ': ' + text + '\n\n')
 
     try:
         run(
             smtp_url, smtp_port, smtp_username, smtp_password, source_email,
             subject_template_text, body_template_text, contacts_table,
             attachments_folder, log)
-    except (OSError, SMTPException) as e:
+    except (OSError, SMTPException, ValueError) as e:
         log(str(e))
         raise SystemExit
