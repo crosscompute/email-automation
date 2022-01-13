@@ -42,6 +42,8 @@ input:
       view: text
       path: contacts.csv
 
+  # input templates
+  # - path to your markdown template or jupyter notebook form
   templates:
     - path: form.md
 
@@ -58,6 +60,8 @@ output:
       view: markdown
       path: log.md
 
+  # output templates
+  # - path to your markdown template or jupyter notebook form
   templates:
     - path: result.md
 
