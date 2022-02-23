@@ -71,14 +71,10 @@ output:
 batches:
   - folder: batches/example
 
-# script configuration
-script:
-
-  # folder where your script should run
-  folder: .
-
-  # command to use to run your script
-  command: python run.py {input_folder} {output_folder}
+# scripts configuration
+# - command to use to run your script
+scripts:
+  - command: python run.py {input_folder} {output_folder}
 
 # environment configuration
 environment:
