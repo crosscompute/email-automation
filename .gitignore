@@ -20,4 +20,5 @@ dist/
 # data
 *.png
 debug/
+batches/
 runs/
