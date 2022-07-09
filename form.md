@@ -17,3 +17,5 @@
 { contacts }
 
 Please put attachments in ~/Documents/attachments. You can send multiple attachments to each recipient.
+
+[See Code for this Automation](https://github.com/crosscompute/email-automation)
