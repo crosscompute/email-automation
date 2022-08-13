@@ -74,7 +74,7 @@ batches:
 # scripts configuration
 # - command to use to run your script
 scripts:
-  - command: python run.py {input_folder} {output_folder}
+  - command: python3 run.py {input_folder} {output_folder}
 
 # environment configuration
 environment:
