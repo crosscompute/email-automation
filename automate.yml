@@ -1,21 +1,8 @@
 ---
-# version of crosscompute
-crosscompute: 0.9.3
-
-# name of your automation
+crosscompute: 0.9.4
 name: Send Emails
-
-# version of your automation
 version: 0.0.1
-
-# input configuration
 input:
-
-  # input variables
-  # - id to use when referencing your variable in the template
-  # - view to use when rendering your variable on the display
-  # - path where your script loads the variable,
-  #   relative to the input folder
   variables:
     - id: SMTP_URL
       view: string
@@ -41,53 +28,22 @@ input:
     - id: contacts
       view: text
       path: contacts.csv
-
-  # input templates
-  # - path to your markdown template or jupyter notebook form
   templates:
     - path: form.md
-
-# output configuration
 output:
-
-  # output variables
-  # - id to use when referencing your variable in the template
-  # - view to use when rendering your variable on the display
-  # - path where your script saves the variable,
-  #   relative to the output folder
   variables:
     - id: log
       view: markdown
       path: log.md
-
-  # output templates
-  # - path to your markdown template or jupyter notebook form
   templates:
     - path: result.md
-
-# batches configuration
-# - folder that contains an input subfolder with paths for
-#   input variables that define a specific batch
 batches:
   - folder: batches/example
-
-# scripts configuration
-# - command to use to run your script
 scripts:
   - command: python3 run.py {input_folder} {output_folder}
-
-# environment configuration
 environment:
-
-  # environment variables
-  # - id of the environment variable to make available to your script
   variables:
     - id: ATTACHMENTS_FOLDER
-
-# display configuration
 display:
-
-  # styles configuration
-  # - path to CSS stylesheet that will be used to render your templates
   styles:
     - path: style.css
