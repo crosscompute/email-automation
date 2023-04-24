@@ -1,4 +1,5 @@
 # TODO: Accept uploaded attachments
+# TODO: Use pathlib
 import json
 import ssl
 from datetime import datetime
@@ -6,14 +7,15 @@ from email.encoders import encode_base64
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from invisibleroads_macros_disk import is_path_in_folder
-from invisibleroads_macros_log import format_path
 from markdown import markdown
 from os import environ
 from os.path import basename, exists, join
 from pandas import read_csv
 from smtplib import SMTPException, SMTP_SSL as SMTPServer
 from sys import argv
+
+from invisibleroads_macros_disk import is_path_in_folder
+from invisibleroads_macros_log import format_path
 
 
 def run(
