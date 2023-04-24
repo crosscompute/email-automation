@@ -29,14 +29,14 @@ input:
       view: text
       path: contacts.csv
   templates:
-    - path: form.md
+    - path: input.md
 output:
   variables:
     - id: log
       view: markdown
       path: log.md
   templates:
-    - path: result.md
+    - path: output.md
 batches:
   - folder: batches/example
 scripts:
