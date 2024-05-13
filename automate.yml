@@ -1,6 +1,7 @@
 ---
 crosscompute: 0.9.4
 name: Send Emails
+description: Send emails using templates to multiple recipients
 version: 0.0.1
 input:
   variables:
@@ -44,6 +45,15 @@ scripts:
 environment:
   variables:
     - id: ATTACHMENTS_FOLDER
+  packages:
+    - id: markdown
+      manager: pip
+    - id: pandas
+      manager: pip
+    - id: invisibleroads-macros-disk
+      manager: pip
+    - id: invisibleroads-macros-log
+      manager: pip
 display:
   styles:
     - path: style.css
