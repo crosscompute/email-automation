@@ -43,8 +43,6 @@ batches:
 scripts:
   - command: python3 run.py {input_folder} {output_folder}
 environment:
-  variables:
-    - id: ATTACHMENTS_FOLDER
   packages:
     - id: markdown
       manager: pip
@@ -54,6 +52,8 @@ environment:
       manager: pip
     - id: invisibleroads-macros-log
       manager: pip
+  variables:
+    - id: ATTACHMENTS_FOLDER
 display:
   styles:
     - path: style.css
